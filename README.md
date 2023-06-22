@@ -54,12 +54,12 @@
 # Table of Contents
 <br/>
 
-* ### [Implant ID Web](#implant-id-Web)
+ ### [Implant ID Web](#implant-id-Web)
 * ### [Table of Contents](#table-of-contents)
-* ###  [Features](#features)
-* ### [Progress](#progress)
-* ### [Caution](#caution)
-* ### [Code Instruction](#code-instruction)
+- ### [Features](#-features)
+- ### [Progress](#progress)
+- ### [Caution](-caution)
+- ### [Code Instruction](#code-instruction)
 	* #### [1.Vue3(Composition API)](#1.vue3(composition-api))
 	* #### [2.Pinia Store(setup stores)](#2.pinia-store(setup-stores))
 	* #### [3.Vue-router](#3.vue-router)
