@@ -54,17 +54,17 @@
 # Table of Contents
 <br/>
 
-* ### [Implant ID Web](#Implant-ID-Web)
-* ### [Table of Contents](#Table-of-Contents)
-* ###  [Features](#Features)
-* ### [Progress](#Progress)
-* ### [Caution](#Caution)
-* ### [Code Instruction](#Code-Instruction)
-	* #### [1.Vue3(Composition API)](#1.Vue3(Composition-API))
-	* #### [2.Pinia Store(setup stores)](#2.Pinia-Store(setup-stores))
-	* #### [3.Vue-router](#3.Vue-router)
-	* #### [4.Axios](#4.Axios)
-	* #### [5.Tui-image-editor](5.Tui-image-editor)
+* ### [Implant ID Web](#implant-id-Web)
+* ### [Table of Contents](#table-of-contents)
+* ###  [Features](#features)
+* ### [Progress](#progress)
+* ### [Caution](#caution)
+* ### [Code Instruction](#code-instruction)
+	* #### [1.Vue3(Composition API)](#1.vue3(composition-api))
+	* #### [2.Pinia Store(setup stores)](#2.pinia-store(setup-stores))
+	* #### [3.Vue-router](#3.vue-router)
+	* #### [4.Axios](#4.axios)
+	* #### [5.Tui-image-editor](5.tui-image-editor)
 
 
 <br/>  
