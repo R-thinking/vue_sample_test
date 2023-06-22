@@ -54,17 +54,17 @@
 # Table of Contents
 <br/>
 
- ### [Implant ID Web](#implant-id-Web)
-* ### [Table of Contents](#table-of-contents)
-- ### [Features](#-features)
-- ### [Progress](#progress)
-- ### [Caution](-caution)
-- ### [Code Instruction](#code-instruction)
-	* #### [1.Vue3(Composition API)](#1.vue3(composition-api))
-	* #### [2.Pinia Store(setup stores)](#2.pinia-store(setup-stores))
-	* #### [3.Vue-router](#3.vue-router)
-	* #### [4.Axios](#4.axios)
-	* #### [5.Tui-image-editor](5.tui-image-editor)
+- [Implant ID Web](#implant-id-web)
+- [Table of Contents](#table-of-contents)
+-  [Features](#features)
+-  [Progress](#progress)
+-  [Caution](#caution)
+-  [Code Instruction](#code-instruction)
+	- [1.Vue3(Composition API)](#1vue3composition-api)
+	- [2.Pinia Store(setup stores)](#2pinia-storesetup-stores)
+	- [3.Vue-router](#3vue-router)
+	- [4.Axios](#4axios)
+	- [5.Tui-image-editor](#5tui-image-editor)
 
 
 <br/>  
@@ -154,20 +154,23 @@
 
 <br/>  
 
-> ### 1. 환경 변수 관리  
+ ### 1. 환경 변수 관리  
+<br/>  
 
    * env.[개발 모드] 파일에서 관리되고 있음.  
    * vite-plugin-environment을 이용해서 process.env에서 직접 접근 가능한 변수 명을 지정할 수 있음.  
    
    <br/>  
      
-> ### 2. build 관련 명령(package.json 참고)  
+ ### 2. build 관련 명령(package.json 참고)  
+<br/>  
 
    * run: npm run serve:[개발 모드]
    * build: npm run build:[개발 모드]  
    <br/>  
      
-> ### 3. Script Setup & Composition API  
+ ### 3. Script Setup & Composition API  
+<br/>  
 
  > **Warning**  
  >Vue3의 Script setup과 Composition API를 이용하여 개발  
@@ -176,9 +179,9 @@
 <br/>
 
 > **참고자료:**  
-* https://vuejs.org/api/sfc-script-setup.html#script-setup       
-* https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api  
-* https://vuejs.org/api/composition-api-setup.html
+* [Script-Setup](https://vuejs.org/api/sfc-script-setup.html#script-setup)       
+* [What is Composition API](https://vuejs.org/guide/extras/composition-api-faq.html#what-is-composition-api )
+* [Basic Usage of Composition API](https://vuejs.org/api/composition-api-setup.html)
   
 <br/>  
 
@@ -188,15 +191,88 @@
 ## 1.Vue3(Composition API)  
 <br/>  
 
+> **Note**  
+> ### Mainly used API:
+> [ref](https://vuejs.org/api/reactivity-core.html#ref), [computed](https://vuejs.org/api/reactivity-core.html#computed), [reactive](https://vuejs.org/api/reactivity-core.html#reactive), [watch](https://vuejs.org/api/reactivity-core.html#watch), [onMounted](https://vuejs.org/api/composition-api-lifecycle.html#onmounted)
+
+<br/>
+
+### Script-setup
+
+```Typescript
+<script setup> 
+	import testComponent from "@/testComponent";
+	const testText = 'text!'; 
+	function testPrint() {
+		console.log(testText); 
+	}; 
+	const data = await testAPI.getData(); // async 없이 Top-level await 사용 가능
+</script> 
+
+<template> 
+	<button @click="testPrint">{{ testText }}</button>  // Top-Level binding 가능
+	<testComponent /> // directly import 가능
+</template>
+```
+
+<br/>
+
+### Mainly used API in Implant ID
+
+```Typescript
+<script setup> 
+	import {
+	  Ref,
+	  computed,
+	  onMounted,
+	  ref,
+	  reactive,
+	  watch,
+	} from "vue";
+
+const string: Ref<string> = "test string"; // Ref<데이터 타입>으로 타입 지정
+const count: Ref<number> = 0;
+const obj = reactive({
+	reactiveCount: computed(()=>count.value), // computed value 기본형
+	computedCount: computed(()=>count.value*2), // 특정 로직이 포함된 콜백함수 형태 가능
+});
+
+watch( // 특정 변수의 값이 변하는지 지켜보는 옵저버
+	() => obj, // 지켜볼 변수 지정 => 값이 변경 되면 콜백함수를 호출
+	/* 콜백 함수 */
+	(newValue, oldValue) => { // 이전 값과 새롭게 변경된 값을 인자로 가져올 수 있음
+		console.log(`Observer: ${oldValue.reactiveCount} is changed to ${newValue.reactiveCount}`);
+		console.log(`computedCount: ${obj.computedCount}`);
+	},
+	/* 옵션 */
+	{
+    immediate: true, // 변수의 초기값부터 콜백함수가 호출됨
+    deep: true, // 변수가 array나 object 등일 경우 요소의 변화까지 감지
+  }
+)
+
+onMounted(()=>{ // component가 moundt될 때 콜백함수를 호출하는 hook
+	count++;
+})
+</script>
+
+/*** console
+Observer: 0 is changed to 1
+computedCount: 2
+***/
+```
+
+<br/>
+
 ## 2.Pinia Store(setup stores)  
 <br/>  
 
 > **Note**  
 > ### Resources:
-> https://pinia.vuejs.org/core-concepts/#setup-stores  
-> https://pinia.vuejs.org/core-concepts/#what-syntax-should-i-pick
+> [Setup-Stores](https://pinia.vuejs.org/core-concepts/#setup-stores )  
+> [Options API vs Composition API](https://pinia.vuejs.org/core-concepts/#what-syntax-should-i-pick)  
 > ### API Docs: 
-> https://pinia.vuejs.org/api/modules/pinia.html#Enumerations
+> [API Documentation | Pinia](https://pinia.vuejs.org/api/modules/pinia.html#Enumerations)
 
 <br/>
 
@@ -212,7 +288,8 @@ const testStore = defineStore(
 	()=> {
 		const user: Ref<string> = ref(""); // 모든 타입 사용 가능하지만 사용시 .value를 붙여야함.
 		const list = reactive({}); 
-		// array 또는 object만 사용 가능, array의 경우 반영이 안되는 경우 있었음
+		// array 또는 object만 사용 가능
+		// array의 경우 요소가 변경됐을 때 결과 반영이 안되는 경우 있었음
 		// 웬만하면 object에만 사용하거나 ref 사용하길 권장
 		const subFunc = ()=> {
 			console.log("sub function");
@@ -258,6 +335,15 @@ onMounted(()=>{
 <br/>  
 
 ## 3.Vue-router
+<br/>
+
+> **Note**  
+> ### Guide:
+> [Getting Started | Vue Router](https://router.vuejs.org/guide/)
+> ### API Docs: 
+> [API Documentation | Vue Router](https://router.vuejs.org/api/)
+
+<br/>
 
 ### Routing pages
 
@@ -449,6 +535,7 @@ axios.interceptors.response.use(
 
 ```HTML
 <!-- test.html -->
+
 <body>
   ...
   <div id="tui-image-editor"></div>
@@ -458,6 +545,7 @@ axios.interceptors.response.use(
 
 ```Typescript
 /* test.ts */
+
  const ImageEditor = require('tui-image-editor');
  const instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
  /* 이미지가 그려질 캔버스의 사이즈 지정 */
@@ -465,7 +553,34 @@ axios.interceptors.response.use(
   cssMaxHeight: 500,
 });
 ```
+<br/>
+
+### Load Image & Use API
+
+```Typescript
+
+/* instance에 이미지 로드 */
+instance.loadImageFromURL(imageURL, "imageName"); 
+
+/* instance를 이용한 API call 예시 */
+instance.startDrawingMode("CROPPER"); // crop 시작
+const cropZone = instance.getCropzoneRect(); // crop 영역 정보
+
+const sortObj = (_obj: cropZone) => { //parsing method
+	if (_obj instanceof Object) {
+	  return Object.keys(_obj)
+		 .sort()
+		 .reduce((obj, key) => (((obj as any)[key] = _obj[key]), obj), {});
+	}
+};
+
+instance.crop(sortObj(cropZone)); // crop 영역만큼 crop 실행
+instance.stopDrawingMode(); // crop 모드 종료  
+```
+
+> ### See API [details](https://nhn.github.io/tui.image-editor/latest/ImageEditor) for additional information
 
 <br/>
 
-### 
+
+
